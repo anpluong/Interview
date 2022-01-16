@@ -1,0 +1,9 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .new-todo-group {
+    display: flex;
+    padding-bottom: 20px;
+  }
+  

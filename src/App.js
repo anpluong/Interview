@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import "./style.css";
-import { FaPlusSquare } from "@react-icons/all-files/fa/FaPlusSquare";
-import ToDo from "./Todo";
+import React, { useState } from 'react';
+import './style.css';
+import { FaPlusSquare } from '@react-icons/all-files/fa/FaPlusSquare';
+import ToDo from './Todo';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
-  const [todoItem, setTodoItem] = useState("");
+  const [todoItem, setTodoItem] = useState('');
 
   const inputChange = (e) => {
     setTodoItem(e.target.value);
@@ -16,16 +16,16 @@ const App = () => {
 
     let tempTodoList = [...todos];
 
-    if (!isTodoDuplicate()) {
+    if (isTodoItemValid()) {
       tempTodoList.unshift({ text: todoItem, completed: false });
       setTodos(tempTodoList);
     }
   };
 
-  const isTodoDuplicate = () => {
+  const isTodoItemValid = () => {
     let tempTodoTextArray = todos.map((todoObj) => todoObj.text);
 
-    return tempTodoTextArray.includes(todoItem);
+    return todoItem !== '' && !tempTodoTextArray.includes(todoItem);
   };
 
   const updateTodo = (indexItem) => {
@@ -41,17 +41,25 @@ const App = () => {
     setTodos(todosTemp);
   };
 
+  const deleteTodo = (indexItem) => {
+    let todosTemp = [...todos];
+
+    todosTemp.splice(indexItem, 1);
+
+    setTodos(todosTemp);
+  };
+
   return (
     <div>
       <h1>Todo App</h1>
-      <form className='new-todo-group' onSubmit={handleSubmit}>
+      <form className="new-todo-group" onSubmit={handleSubmit}>
         <input
-          id='todo-input'
-          placeholder='Enter your new Todo'
+          id="todo-input"
+          placeholder="Enter your new Todo"
           onChange={inputChange}
           value={todoItem}
         />
-        <FaPlusSquare size='22' onClick={handleSubmit} />
+        <FaPlusSquare size="22" onClick={handleSubmit} />
       </form>
 
       {todos.map((todoItem, indexItem) => (
@@ -59,6 +67,7 @@ const App = () => {
           key={`${todoItem}-${indexItem}`}
           todoItem={todoItem}
           updateTodo={updateTodo}
+          deleteTodo={deleteTodo}
           indexItem={indexItem}
         />
       ))}
